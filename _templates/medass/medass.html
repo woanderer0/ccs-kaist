@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block static %}
+<link rel="stylesheet" href="/static/css/medass/medass.css">
+{% endblock %}
+
+{% block contents %}
+<main class="flex-shrink-0">
+	<div class="container mt-3">
+		<h1>Vertical Slider Data Recorder</h1>
+		<div class="row d-flex align-items-center">
+			<div class="col-md-6">
+				<div class="block">
+					<div class="form-group">
+						<input type="range" class="form-control-range vertical-slider" id="slider" orient="vertical">
+					</div>
+
+					<form id="csv-form" method="POST">
+						{% csrf_token %}
+						<input 
+							type="text" 
+							id="csvInput"
+							name="csv_input"
+							style="display: none;"
+						>
+					</form>
+
+					<button class="btn btn-primary" id="startStopButton">Start Recording</button>
+					<button 
+						class="btn btn-warning" 
+						id="saveButton"
+						form="csv-form"
+						type="submit" 
+						disabled="true"
+					>Save Recording</button>
+					
+					<p id="stopwatch" style="display: none;">Recording Time: <span id="stopwatchValue">0.00</span> seconds</p>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="block" id="tester">
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+<script src="/static/js/medass/medass.js"></script>
+{% endblock %}

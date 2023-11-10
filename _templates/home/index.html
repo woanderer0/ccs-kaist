@@ -1,0 +1,43 @@
+{% extends 'base.html' %} 
+{% block contents %}
+<main class="flex-shrink-0">
+  <div class="container my-4">
+    <div class="p-5 mb-4 bg-light rounded-3">
+      <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">Welcome!</h1>
+        <p class="fs-5">
+          <b>CCS KAIST</b> is the website where everyone can share their creativity 
+          and uniqueness for web interaction. Feel free to join us to show your's to
+          everyone who are waiting for awesome ideas!
+        </p>
+        <a class="btn btn-outline-primary fw-bold" href="/gallery">Go to Gallery</a>
+      </div>
+    </div>
+
+    <div class="row align-items-md-stretch">
+      <div class="col-md-6">
+        <div class="h-100 p-5 text-bg-dark rounded-3">
+          <h2>Simple is the best</h2>
+          <p>
+            <b>Be Simple.</b> It is important how a designer can convey their purpost
+            to client with least explaination. To achieve this, title of explore is
+            limited to 32 characters while detail is limited to 256 characters.
+            288 characters, with captivating image is enough to explain your explore.
+          </p>
+          <a class="btn btn-outline-light" href="/">See Our Visions</a>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="h-100 p-5 bg-light border rounded-3">
+          <h2>How to use this place?</h2>
+          <p>
+            <b>It's up to you.</b> Find something that makes you interested.
+            <br><br><br><br>
+          </p>
+          <a class="btn btn-outline-secondary" href="/">How about this?</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

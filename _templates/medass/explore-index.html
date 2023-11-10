@@ -1,0 +1,25 @@
+{% extends 'base.html' %} 
+{% block contents %}
+<main class="flex-shrink-0">
+  <div class="container">
+    <div class="row row-cols-1 row-cols-md-4 g-4 mt-3 mb-5">
+      <div class="col">
+        <div class="card border-success h-100">
+          <img src="/static/image/unknown.png" class="card-img-top">
+          <div class="card-body">
+            <h3 class="card-title"><b>Make new explore!</b></h3>
+            <h6 class="card-subtitle">by {{request.user}}</h6>
+            <p class="card-text mt-3">
+              Explorer is your own page where you can share your uniqueness and creativity to everyone.
+              Feel free to make one!
+            </p>
+          </div>
+          <div class="card-body d-flex align-items-end">
+            <a href="{% url 'gallery:explore-create' %}" class="btn btn-success mx-1">create!</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

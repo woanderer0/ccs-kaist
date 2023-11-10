@@ -1,0 +1,208 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+      CCS KAIST
+    </a>
+    <button 
+      class="navbar-toggler" 
+      type="button" 
+      data-bs-toggle="collapse" 
+      data-bs-target="#navbarTogglerDemo02" 
+      aria-controls="navbarTogglerDemo02" 
+      aria-expanded="false" 
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+      <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <li class="nav-item">
+          <a 
+            class="nav-link active" 
+            href="/"
+          >
+            Home
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+            Menus
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'medass:medass' %}">MedAss</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a 
+            class="nav-link" 
+            href="https://github.com/killerwhalee/kaist-world"
+            target="_blank"
+          >
+            Github
+          </a>
+        </li>
+      </ul>
+      {% if user.is_authenticated %}
+      <div class="nav-item my-2">
+        <p class="text-white mb-0 me-1">
+          Welcome back,
+          <a class="text-white fw-bold me-3" href="{% url 'common:profile' user.username %}">
+            {{ user.username }}
+          </a>
+        </p>
+      </div>
+      <a 
+        class="btn btn-outline-light" 
+        href="{% url 'common:logout' %}" 
+        role="button"
+      >
+        Logout
+      </a>
+      {% else %}
+      <a 
+        class="btn btn-success mx-1" 
+        href="{% url 'common:login' %}"
+        role="button"
+      >
+        Login
+      </a>
+      <a 
+        class="btn btn-outline-light mx-1"
+        href="{% url 'common:signup' %}"
+        role="button"
+      >
+        Sign up
+      </a>
+      <!--<a class="btn btn-success mx-1" href="{% url 'common:login' %}" role="button">Login</a>
+      <a class="btn btn-outline-light" href="{% url 'common:signup' %}" role="button">Sign up</a> -->
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
+<!-- Login Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="modalLogin">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header p-5 pb-4 border-bottom-0">
+        <h1 class="fw-bold mb-0 fs-2">Login</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body p-5 pt-0">
+        <form method="post" action="{% url 'common:login' %}">
+          {% csrf_token %}
+  
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control rounded-3"
+              id="Username"
+              name="username"
+              placeholder="Username"
+              value="{{form.username.value|default_if_none:''}}"
+            />
+            <label for="Username">Username</label>
+          </div>
+          
+          <div class="form-floating mb-3">
+            <input
+              type="password"
+              class="form-control rounded-3"
+              id="Password"
+              name="password"
+              placeholder="Password"
+              value="{{form.password.value|default_if_none:''}}"
+            />
+            <label for="Password">Password</label>
+          </div>
+  
+          <div class="checkbox mb-3">
+            <label>
+              <input type="checkbox" value="remember-me" /> Remember me
+            </label>
+          </div>
+          <button class="w-auto btn btn-lg btn-primary" type="submit">
+            Login
+          </button>
+          <p class="mt-2 mb-0">Forgot password? <a href="#">Reset password</a></p>
+          <p>Not a user yet? <a href="#">Sign up</a></p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Signup Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="modalSignup">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header p-5 pb-4 border-bottom-0">
+        <h1 class="fw-bold mb-0 fs-2">Sign up for free</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body p-5 pt-0">
+        <form method="post" action="{% url 'common:signup' %}">
+          {% csrf_token %}
+  
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control rounded-3"
+              id="Username"
+              name="username"
+              placeholder="Username"
+              value="{{form.username.value|default_if_none:''}}"
+            />
+            <label for="Username">Username</label>
+          </div>
+
+          <div class="form-floating mb-3">
+            <input
+              type="email"
+              class="form-control rounded-3"
+              id="Email"
+              name="email"
+              placeholder="username@example.com"
+              value="{{form.email.value|default_if_none:''}}"
+            />
+            <label for="Email">Email Address</label>
+          </div>
+
+          <div class="form-floating mb-3">
+            <input
+              type="password"
+              class="form-control rounded-3"
+              id="Password1"
+              name="password1"
+              placeholder="Password"
+              value="{{form.password1.value|default_if_none:''}}"
+            />
+            <label for="Password1">Password</label>
+          </div>
+
+          <div class="form-floating mb-3">
+            <input
+              type="password"
+              class="form-control rounded-3"
+              id="Password2"
+              name="password2"
+              placeholder="Confirm Password"
+              value="{{form.password2.value|default_if_none:''}}"
+            />
+            <label for="Password2">Confirm Password</label>
+          </div>
+
+          <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Sign up</button>
+          <small class="text-muted">By clicking Sign up, you agree to the 
+            <a href="{% url 'common:terms' %}">
+              terms of use.
+            </a>
+          </small>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
