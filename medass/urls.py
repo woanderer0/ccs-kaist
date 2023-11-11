@@ -5,5 +5,6 @@ from . import views
 app_name = 'medass'
 
 urlpatterns = [
-    path('', views.medass, name='medass'),
+    path('', views.medass_index, name='index'),
+    path('<str:username>', views.medass_inquiry, name='inquiry')
 ]
