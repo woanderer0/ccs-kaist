@@ -23,6 +23,7 @@ def signup(request):
             # Save User Data
             user = form.save(commit=False)
             user.is_active = False
+            user.save()
 
             # Authenticate User
             username = form.cleaned_data.get('username')
@@ -53,14 +54,10 @@ def signup(request):
             status = send_mail(
                 mail_title,
                 message=message,
-                from_email="noreply@ccskaist.site",
+                from_email="jacob7432@gmail.com",
                 recipient_list=[mail_to],
                 html_message=html_message
             )
-
-            # Save user data after mail sent successfully
-            if status:
-                user.save()
 
             return render(request, 'common/email-sent.html')
     else:
@@ -74,13 +71,15 @@ def terms(request):
 
 def verify(request, uidb64, token):
     try:
+        print(urlsafe_base64_decode(uidb64))
         uid = force_str(urlsafe_base64_decode(uidb64))
+        print(uid)
         user = User.objects.get(pk=uid)
-    except(TypeError, ValueError, OverflowError, User.DoesNotExsit):
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist) as e:
+        print(e)
         user = None
     
     print(f"user = {user}, account_checked = {account_activation_token.check_token(user, token)}")
-    print(f"token check\nuser: {account_activation_token.make_token(user)}\ntoken: {token}")
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
@@ -90,10 +89,11 @@ def verify(request, uidb64, token):
         return render(request, 'common/verify-fail.html')
 
 def profile(request, username):
-    return render(request, 'error/comingsoon.html')
+    user = User.objects.get(username=username)
+    context = {'user': user}
+    return render(request, 'error/comingsoon.html', context)
 
 # Error handling
-
 def error400(request, exception):
     return render(request, 'error/400.html', {})
 

@@ -13,25 +13,29 @@
 					<div class="form-group">
 						<input type="range" class="form-control-range vertical-slider" id="slider" orient="vertical">
 					</div>
-
+					
 					<form id="csv-form" method="POST">
 						{% csrf_token %}
 						<input 
-							type="text" 
-							id="csvInput"
-							name="csv_input"
-							style="display: none;"
+						type="text" 
+						id="csvInput"
+						name="csv_input"
+						style="display: none;"
 						>
 					</form>
-
+					
 					<button class="btn btn-primary" id="startStopButton">Start Recording</button>
 					<button 
-						class="btn btn-warning" 
-						id="saveButton"
-						form="csv-form"
-						type="submit" 
-						disabled="true"
+					class="btn btn-warning" 
+					id="saveButton"
+					form="csv-form"
+					type="submit" 
+					disabled="true"
 					>Save Recording</button>
+					
+					{% if not user.is_authenticated %}
+					<p class="text-danger">Sign in to save CSV file</p>
+					{% endif %}
 					
 					<p id="stopwatch" style="display: none;">Recording Time: <span id="stopwatchValue">0.00</span> seconds</p>
 				</div>
