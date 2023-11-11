@@ -37,5 +37,8 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler400 = 'common.views.error400'
+handler403 = 'common.views.error403'
 handler404 = 'common.views.error404'
 handler500 = 'common.views.error500'
+handler502 = 'common.views.error502'
+handler503 = 'common.views.error503'

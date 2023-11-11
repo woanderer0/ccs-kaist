@@ -91,14 +91,23 @@ def verify(request, uidb64, token):
 def profile(request, username):
     user = User.objects.get(username=username)
     context = {'user': user}
-    return render(request, 'error/comingsoon.html', context)
+    return render(request, 'common/profile.html', context)
 
 # Error handling
 def error400(request, exception):
     return render(request, 'error/400.html', {})
+
+def error403(request, exception):
+    return render(request, 'error/403.html', {})
 
 def error404(request, exception):
     return render(request, 'error/404.html', {})
 
 def error500(request):
     return render(request, 'error/500.html', {})
+
+def error502(request):
+    return render(request, 'error/502.html', {})
+
+def error503(request):
+    return render(request, 'error/503.html', {})
