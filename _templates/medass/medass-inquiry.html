@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block static %}
+<link rel="stylesheet" href="/static/css/medass/medass.css">
+{% endblock %}
+
+{% block contents %}
+<main class="flex-shrink-0">
+	<div class="container mt-3">
+		<h1>Recorded Datas</h1>
+		{% if data_list %}
+		<table class="table table-striped table-hover">
+			<thead>
+				<tr>
+					<th scope="col" class="text-center">#</th>
+					<th scope="col" class="text-center">Date</th>
+					<th scope="col">Data Preview</th>
+					<th scope="col" class="text-center">Options</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for data, csv_x_data, csv_y_data in data_list %}
+				<tr>
+					<th scope="row" class="align-middle text-center">
+						{{forloop.counter}}
+					</th>
+					<td class="align-middle">
+						{{data.date_created}}
+					</td>
+					<td>
+						<div class="w-auto h-auto">
+							<canvas 
+							class="col-1"
+							id="plotting-{{forloop.counter}}"
+							height="10%"
+							></canvas>
+						</div>
+						<input 
+						type="text" 
+						id="csvInput-x-{{forloop.counter}}"
+						name="csv_input"
+						value="{{csv_x_data}}"
+						style="display: none;"
+						>
+						<input 
+						type="text" 
+						id="csvInput-y-{{forloop.counter}}"
+						name="csv_input"
+						value="{{csv_y_data}}"
+						style="display: none;"
+						>
+					</td>
+					<td class="text-middle">
+						<div class="my-1">
+							<a 
+							href="{% url 'common:download' data.csv_data %}"
+							role="button"
+							class="btn btn-success btn-sm ms-1"
+							>Download CSV</a>
+						</div>
+						<div class="my-1">
+							<a 
+							href="{% url 'medass:delete' data.id %}"
+							role="button"
+							class="btn btn-danger btn-sm ms-1"
+							>Delete Data</a>
+						</div>
+					</td>
+				</tr>
+				{% endfor %}				
+			</tbody>
+		</table>
+		<a 
+		href="{% url 'medass:index' %}"
+		role="button"
+		class="btn btn-primary btn-sm ms-1 mb-4 float-end"
+		>Go back to medass</a>
+		{% else %}
+		<p>
+			No recordings yet? Why not go and create some amazing ones!
+		</p>
+		<a 
+		href="{% url 'medass:index' %}"
+		role="button"
+		class="btn btn-primary btn-sm ms-1"
+		>Go recording!</a>
+		{% endif %}
+	</main>
+	{% endblock %}
+	
+	{% block scripts %}
+	<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script src="/static/js/medass/medass-inquiry.js"></script>
+	{% endblock %}

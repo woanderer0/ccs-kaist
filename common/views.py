@@ -1,8 +1,10 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from django.http import HttpResponse
 
 from django.shortcuts import render, redirect
 from .forms import RegisterForm
+from _config.settings.base import MEDIA_ROOT
 
 # SMTP Libraries
 from django.contrib.sites.shortcuts import get_current_site
@@ -12,6 +14,7 @@ from django.core.mail import send_mail
 from django.utils.encoding import force_bytes, force_str
 from _config.utils import account_activation_token
 
+# Views for User Authentication
 def signup(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
@@ -93,7 +96,24 @@ def profile(request, username):
     context = {'user': user}
     return render(request, 'common/profile.html', context)
 
-# Error handling
+
+# Views for Downloading Media
+def download(request, path):
+    import os
+    
+
+    file_path = os.path.join(MEDIA_ROOT, path)
+
+    if os.path.exists(file_path):
+        file_ext = os.path.splitext(file_path)[-1]
+
+        with open(file_path, 'r', encoding='UTF-8') as file:
+            response = HttpResponse(file.read())
+            response['Content-Disposition'] = f'attachment; filename="download{file_ext}"'
+            return response
+
+
+# Views for Error Handling
 def error400(request, exception):
     return render(request, 'error/400.html', {})
 

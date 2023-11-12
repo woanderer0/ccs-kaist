@@ -6,5 +6,6 @@ app_name = 'medass'
 
 urlpatterns = [
     path('', views.medass_index, name='index'),
-    path('<str:username>', views.medass_inquiry, name='inquiry')
+    path('<str:username>', views.medass_inquiry, name='inquiry'),
+    path('delete/<int:id>', views.medass_delete, name='delete')
 ]
