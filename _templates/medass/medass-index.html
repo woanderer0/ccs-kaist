@@ -11,7 +11,13 @@
 			<div class="col-md-6">
 				<div class="block">
 					<div class="form-group">
-						<input type="range" class="form-control-range vertical-slider" id="slider" orient="vertical">
+						<input 
+						type="range" 
+						class="form-control-range vertical-slider"
+						step="0.1"
+						id="slider" 
+						orient="vertical"
+						>
 					</div>
 					
 					<form id="csv-form" method="POST">
@@ -35,13 +41,19 @@
 					
 					{% if not user.is_authenticated %}
 					<p class="text-danger">Sign in to save CSV file</p>
+					{% else %}
+					<a
+					role="button"
+					href="{% url 'medass:inquiry' user.username %}"
+					class="btn btn-secondary"
+					>My Recordings</a>
 					{% endif %}
 					
-					<p id="stopwatch" style="display: none;">Recording Time: <span id="stopwatchValue">0.00</span> seconds</p>
+					{% comment %} <p id="stopwatch">Recording Time: <span id="stopwatchValue">0.00</span> seconds</p> {% endcomment %}
 				</div>
 			</div>
 			<div class="col-md-6">
-				<div class="block" id="tester">
+				<div class="block" id="plotting">
 				</div>
 			</div>
 		</div>
@@ -51,5 +63,5 @@
 
 {% block scripts %}
 <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
-<script src="/static/js/medass/medass.js"></script>
+<script src="/static/js/medass/medass-index.js"></script>
 {% endblock %}
