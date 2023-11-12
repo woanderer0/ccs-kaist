@@ -23,7 +23,7 @@ function formatTime(milliseconds) {
 
 startStopButton.addEventListener("click", () => {
     if (recording) {
-        const csvContent = "data:text/csv;charset=utf-8," + recordedData.map(data => data.join(",")).join("\n");
+        const csvContent = recordedData.map(data => data.join(",")).join("\n");
         csvInput.value = encodeURI(csvContent);
 
         clearInterval(stopwatchInterval);
@@ -38,7 +38,7 @@ startStopButton.addEventListener("click", () => {
         // Start interval
         stopwatchInterval = setInterval(() => {
             stopwatchTime = new Date().getTime() - clockTime;
-            stopwatchValue.innerText = formatTime(stopwatchTime);
+            //stopwatchValue.innerText = formatTime(stopwatchTime);
             let time = (stopwatchTime / 1000).toFixed(2);
             let value = slider.value;
 
@@ -51,7 +51,6 @@ startStopButton.addEventListener("click", () => {
         saveButton.disabled = true
     }
     recording = !recording;
-    stopwatch.style.display = recording ? "block" : "none";
 });
 
 // Plotting Module
@@ -60,10 +59,11 @@ const plotInterval = setInterval(() => {
     let maxX = timeList[timeList.length - 1];
     let minX = maxX - 10;
     
-    TESTER = document.getElementById('tester');
+    GRAPH = document.getElementById('plotting');
+    
     Plotly.newPlot( 
-        TESTER, 
-        [{x: timeList, y: valueList }], 
+        GRAPH, 
+        [{x: timeList, y: valueList, type: 'scatter'}], 
         { 
             xaxis: {
                 title: "time",
