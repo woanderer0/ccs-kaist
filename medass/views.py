@@ -8,7 +8,7 @@ from django.core.files.base import ContentFile
 from _config.utils import uuid_filepath
 from .models import MedassData
 
-#@login_required(login_url='common:login')
+
 def medass_index(request):
     if request.method == 'POST':
         if request.user.is_authenticated:
@@ -76,7 +76,18 @@ def medass_delete(request, id):
 
     # Process delete only if user matches
     if target_data.user == request.user:
+        # Import module temporarily
+        from _config.settings.base import MEDIA_ROOT
+        import os
+
+        # Delete csv file from media repository
+        file_path = os.path.join(MEDIA_ROOT, target_data.csv_data)
+        if os.path.exists(file_path):
+            os.remove(file_path)
+
+        # Delete data from database
         target_data.delete()
+
         return redirect('medass:inquiry', request.user)
 
     # Respond to (403)Forbidden if user does not match
