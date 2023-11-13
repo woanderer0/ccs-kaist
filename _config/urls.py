@@ -28,7 +28,8 @@ urlpatterns = [
     path('common/', include('common.urls')),
 
     # User Purpose Application
-    path('medass/', include('medass.urls'))
+    path('medass/', include('medass.urls')),
+    path('board/', include('board.urls'))
 ]
 
 from django.conf import settings

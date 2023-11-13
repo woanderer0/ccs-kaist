@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block static %}
+<link rel="stylesheet" href="/static/css/medass/medass-index.css">
+{% endblock %}
+
+{% block contents %}
+<main class="flex-shrink-0">
+	<div class="container mt-3">
+		<h1>Board</h1>
+		<div class="card p-4 my-3">
+			<div class="row" data-masonry='{"percentPosition": true }'>
+				{% if user.is_authenticated %}
+				<div class="col-sm-6 col-md-4 mt-3">
+					<div class="card">
+						<div class="card-body">
+							<form method="post" action="{% url 'board:index' %}">
+								{% csrf_token %}
+								<textarea 
+								class="form-control overflow-auto"
+								id="content-input"
+								name="content"
+								placeholder="Write Anything You Want!"
+								rows="5"
+								style="resize: none;"></textarea>
+								<button 
+								type="submit"
+								class="btn btn-primary btn-sm mt-3 float-end"
+								>Upload!</button>
+							</form>
+						</div>
+					</div>
+				</div>
+				{% endif %}
+				{% for note in notes %}
+				<div class="col-sm-6 col-md-4 mt-3">
+					<div class="card">
+						<div class="card-body">
+							<blockquote class="blockquote mb-0">
+								<p>{{note.content}}</p>
+								<footer class="blockquote-footer mt-1"><cite class="h6"> by. {{note.user}}</cite></footer>
+							</blockquote>
+						</div>
+						<div class="card-footer text-muted d-flex align-items-center justify-content-between">
+							{{note.date_created}}
+							{% if note.user == user %}
+							<a 
+							href="{% url 'board:delete' note.id %}"
+							role="button"
+							class="btn btn-danger btn-sm float-end"
+							>Remove</a>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/static/js/medass/medass-inquiry.js"></script>
+{% endblock %}
