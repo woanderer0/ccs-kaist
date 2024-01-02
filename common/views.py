@@ -4,7 +4,6 @@ from django.http import HttpResponse
 
 from django.shortcuts import render, redirect
 from .forms import RegisterForm
-from _config.settings.base import MEDIA_ROOT
 
 # SMTP Libraries
 from django.contrib.sites.shortcuts import get_current_site
@@ -57,12 +56,16 @@ def signup(request):
             status = send_mail(
                 mail_title,
                 message=message,
-                from_email="jacob7432@gmail.com",
+                from_email="noreply@healingmentor.co.kr",
                 recipient_list=[mail_to],
                 html_message=html_message
             )
 
-            return render(request, 'common/email-sent.html')
+            if (not status):
+                user.delete()
+
+            context = {'email': user.email}
+            return render(request, 'common/email-sent.html', context)
     else:
         form = RegisterForm()
     
@@ -99,9 +102,9 @@ def profile(request, username):
 
 # Views for Downloading Media
 def download(request, path):
+    from _config.settings.base import MEDIA_ROOT
     import os
     
-
     file_path = os.path.join(MEDIA_ROOT, path)
 
     if os.path.exists(file_path):
