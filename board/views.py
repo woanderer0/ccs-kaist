@@ -28,8 +28,8 @@ def board_index(request):
 def board_delete(request, id):
     target_data = Note.objects.get(id=id)
 
-    # Process delete only if user matches
-    if target_data.user == request.user:
+    # Process delete only if user matches or user is staff
+    if target_data.user == request.user or request.user.is_staff:
         # Delete data from database and redirect to index
         target_data.delete()
         return redirect('board:index')

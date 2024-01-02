@@ -40,8 +40,13 @@ def medass_inquiry(request, username):
         csv_x_data_list = []
         csv_y_data_list = []
 
-        # Fill data variable from raw database
-        raw_data_list = MedassData.objects.filter(user=user)
+        # Load all data if user is staff
+        if user.is_staff:
+            raw_data_list = MedassData.objects.all()
+        # If not, load user data only
+        else:
+            raw_data_list = MedassData.objects.filter(user=user)
+
         for data in raw_data_list:
             from _config.settings.base import MEDIA_ROOT
             from urllib.parse import quote
@@ -76,18 +81,7 @@ def medass_delete(request, id):
 
     # Process delete only if user matches
     if target_data.user == request.user:
-        # Import module temporarily
-        from _config.settings.base import MEDIA_ROOT
-        import os
-
-        # Delete csv file from media repository
-        file_path = os.path.join(MEDIA_ROOT, target_data.csv_data)
-        if os.path.exists(file_path):
-            os.remove(file_path)
-
-        # Delete data from database
         target_data.delete()
-
         return redirect('medass:inquiry', request.user)
 
     # Respond to (403)Forbidden if user does not match

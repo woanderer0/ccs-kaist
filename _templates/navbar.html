@@ -47,10 +47,20 @@
       {% if user.is_authenticated %}
       <div class="nav-item my-2">
         <p class="text-white mb-0 me-1">
-          Welcome back,
+          Welcome back, 
+          {% if user.is_superuser %}
+          <a class="text-danger fw-bold me-3" href="{% url 'common:profile' user.username %}">
+            {{ user.username }} [admin]
+          </a>
+          {% elif user.is_staff %}
+          <a class="text-warning fw-bold me-3" href="{% url 'common:profile' user.username %}">
+            {{ user.username }} [staff]
+          </a>
+          {% else %}
           <a class="text-white fw-bold me-3" href="{% url 'common:profile' user.username %}">
             {{ user.username }}
           </a>
+          {% endif %}
         </p>
       </div>
       <a 
