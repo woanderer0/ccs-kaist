@@ -1,5 +1,4 @@
 // Plot the graph
-const Plotly = window.Plotly;
 const Chart = window.Chart;
 
 for (let i = 1;;i++) {
@@ -17,10 +16,10 @@ for (let i = 1;;i++) {
     
     X_INPUT.value = "";
     Y_INPUT.value = "";
-
+    
     color = Math.floor(Math.random() * 240);
     light = Math.floor(Math.random() * 80);
-
+    
     new Chart(GRAPH, {
         type: 'line',
         data: {
@@ -36,12 +35,12 @@ for (let i = 1;;i++) {
             elements: {
                 point: {
                     pointStyle: false
-                }
+                },
             },
             plugins: {
                 legend: {
                     display: false
-                }
+                },
             },
             scales: {
                 x: {
@@ -51,8 +50,14 @@ for (let i = 1;;i++) {
                     display: false,
                     min: -5,
                     max: 105
-                }
-            }
+                },
+            },
+            animation: {
+                onComplete: function () {
+                    var a = document.getElementById('imageDownload-' + i);
+                    a.href = this.toBase64Image();
+                },
+            },
         },
         plugins: []
     });

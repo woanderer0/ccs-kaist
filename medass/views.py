@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from _config.utils import uuid_filepath
 from .models import MedassData
@@ -47,6 +48,11 @@ def medass_inquiry(request, username):
         else:
             raw_data_list = MedassData.objects.filter(user=user)
 
+        # Paginate raw datas
+        page = request.GET.get('page', 1)
+        paginator = Paginator(raw_data_list, 10)
+        raw_data_list = paginator.get_page(page)
+
         for data in raw_data_list:
             from _config.settings.base import MEDIA_ROOT
             from urllib.parse import quote
@@ -69,6 +75,7 @@ def medass_inquiry(request, username):
         # Send context to inquiry html template
         context = { 
             'data_list': data_list,
+            'page_obj': raw_data_list,
         }
         return render(request, 'medass/medass-inquiry.html', context)
 

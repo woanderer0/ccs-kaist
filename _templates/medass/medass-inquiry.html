@@ -21,7 +21,7 @@
 				{% for data, csv_x_data, csv_y_data in data_list %}
 				<tr>
 					<th scope="row" class="align-middle text-center">
-						{{forloop.counter}}
+						{{data.id}}
 					</th>
 					<td class="align-middle">
 						<div class="fw-bold">{{data.user}}</div>
@@ -53,10 +53,12 @@
 					<td class="text-middle">
 						<div class="my-1">
 							<a 
-							href="{% url 'common:download' data.csv_data %}"
+							href=""
+							download="chart #{{data.id}}.png"
 							role="button"
 							class="btn btn-success btn-sm ms-1"
-							>Download CSV</a>
+							id="imageDownload-{{forloop.counter}}"
+							>Download Image</a>
 						</div>
 						{% if user == data.user %}
 						<div class="my-1">
@@ -72,6 +74,13 @@
 				{% endfor %}				
 			</tbody>
 		</table>
+		<nav>
+			<ul class="pagination">
+				{% for page in page_obj.paginator.page_range %}
+					<li class="page-item"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
+				{% endfor %}
+			</ul>
+		</nav>
 		<a 
 		href="{% url 'medass:index' %}"
 		role="button"
