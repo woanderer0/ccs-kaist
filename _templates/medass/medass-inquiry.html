@@ -54,12 +54,21 @@
 						<div class="my-1">
 							<a 
 							href=""
-							download="chart #{{data.id}}.png"
+							download="download.png"
 							role="button"
 							class="btn btn-success btn-sm ms-1"
 							id="imageDownload-{{forloop.counter}}"
 							>Download Image</a>
 						</div>
+						{% if user.is_superuser or user.is_staff %}
+						<div class="my-1">
+							<a 
+							href="{% url 'common:download' data.csv_data %}"
+							role="button"
+							class="btn btn-secondary btn-sm ms-1"
+							>Download CSV</a>
+						</div>
+						{% endif %}
 						{% if user == data.user %}
 						<div class="my-1">
 							<a 
@@ -74,18 +83,28 @@
 				{% endfor %}				
 			</tbody>
 		</table>
-		<nav>
-			<ul class="pagination">
+		<nav style="display: flex; justify-content: space-between">
+			<ul class="pagination pagination-sm">
+				{% if page_obj.has_previous %}
+				<li class="page-item"><a class="page-link" href="?page={{page_obj.previous_page_number}}">&lt;&lt;</a></li>
+				{% endif %}
 				{% for page in page_obj.paginator.page_range %}
-					<li class="page-item"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
+				{% if page == page_obj.number %}
+				<li class="page-item active"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
+				{% else %}
+				<li class="page-item"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
+				{% endif %}
 				{% endfor %}
+				{% if page_obj.has_next %}
+				<li class="page-item"><a class="page-link" href="?page={{page_obj.next_page_number}}">&gt;&gt;</a></li>
+				{% endif %}
 			</ul>
+			<a 
+			href="{% url 'medass:index' %}"
+			role="button"
+			class="btn btn-primary btn-sm ms-1 mb-4 float-end"
+			>Go back to medass</a>
 		</nav>
-		<a 
-		href="{% url 'medass:index' %}"
-		role="button"
-		class="btn btn-primary btn-sm ms-1 mb-4 float-end"
-		>Go back to medass</a>
 		{% else %}
 		<p>
 			No recordings yet? Why not go and create some amazing ones!
@@ -96,11 +115,12 @@
 		class="btn btn-primary btn-sm ms-1"
 		>Go recording!</a>
 		{% endif %}
-	</main>
-	{% endblock %}
-	
-	{% block scripts %}
-	<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	<script src="/static/js/medass/medass-inquiry.js"></script>
-	{% endblock %}
+	</div>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="/static/js/medass/medass-inquiry.js"></script>
+{% endblock %}
