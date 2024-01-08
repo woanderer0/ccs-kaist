@@ -19,28 +19,53 @@
 						orient="vertical"
 						>
 					</div>
-					
-					<form id="csv-form" method="POST">
-						{% csrf_token %}
-						<input 
-						type="text" 
-						id="csvInput"
-						name="csv_input"
-						style="display: none;"
-						>
-					</form>
-					
+
 					<button class="btn btn-primary" id="startStopButton">Start Recording</button>
-					<button 
-					class="btn btn-warning" 
-					id="saveButton"
-					form="csv-form"
-					type="submit" 
-					disabled="true"
-					>Save Recording</button>
+					
+					<!-- Modal -->
+					<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h1 class="modal-title fs-5" id="staticBackdropLabel">Meditation Finished</h1>
+									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<p class="fw-bold mt-2">Respiration Chart</p>
+									<div class="w-auto h-auto">
+										<canvas 
+										class="col-1"
+										id="plotting-modal"
+										></canvas>
+									</div>
+									<form id="csv-form" method="POST">
+										{% csrf_token %}
+										<input 
+										type="text" 
+										id="csvInput"
+										name="csv_input"
+										style="display: none;"
+										>
+										<p class="fw-bold mt-2">Notes for this meditation (optional)</p>
+										<textarea class="form-control" id="noteInput" name="note_input" rows="3"></textarea>
+									</form>
+								</div>
+								<div class="modal-footer">
+									<button 
+									class="btn btn-primary" 
+									id="saveButton"
+									form="csv-form"
+									type="submit" 
+									disabled="true"
+									>Save Recording</button>
+									<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Discard</button>
+								</div>
+							</div>
+						</div>
+					</div>
 					
 					{% if not user.is_authenticated %}
-					<p class="text-danger">Sign in to save CSV file</p>
+					<p class="text-danger">Sign in to save recording</p>
 					{% else %}
 					<a
 					role="button"
@@ -63,5 +88,6 @@
 
 {% block scripts %}
 <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="/static/js/medass/medass-index.js"></script>
 {% endblock %}

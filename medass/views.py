@@ -24,6 +24,9 @@ def medass_index(request):
             text_data = request.POST['csv_input']
             file_path = uuid_filepath(data, 'result.csv')
             data.csv_data.save(file_path, ContentFile(unquote(text_data)))
+
+            # Write note
+            data.note = request.POST['note_input']
             
             # Save into model
             data.save()
