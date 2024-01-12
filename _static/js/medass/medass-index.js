@@ -79,7 +79,8 @@ const plotInterval = setInterval(() => {
             range: [0, 100]
         },
         margin: { t: 0 } 
-    });
+    },
+    {staticPlot: true});
 });
 
 var modalChart;
