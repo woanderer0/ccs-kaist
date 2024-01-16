@@ -4,7 +4,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.core.paginator import Paginator
 
 from _config.utils import uuid_filepath
 from .models import MedassData
@@ -58,7 +58,6 @@ def medass_inquiry(request, username):
 
         for data in raw_data_list:
             from _config.settings.base import MEDIA_ROOT
-            from urllib.parse import quote
             import csv
 
             csv_x_data = []
