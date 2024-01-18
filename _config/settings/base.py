@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'common.apps.CommonConfig',
 
     'medass.apps.MedassConfig',
-    'board.apps.BoardConfig'
+    'board.apps.BoardConfig',
 ]
 
 MIDDLEWARE = [

@@ -1,93 +1,149 @@
 {% extends "base.html" %}
 {% block static %}
-<link rel="stylesheet" href="/static/css/medass/medass-index.css">
-{% endblock %}
-
+<link
+	rel="stylesheet"
+	href="/static/css/medass/medass-index.css"
+/>
+{% endblock %} 
 {% block contents %}
 <main class="flex-shrink-0">
-	<div class="container mt-3">
+	<div
+		class="container my-3"
+		style="overflow-x: hidden"
+	>
 		<h1>Vertical Slider Data Recorder</h1>
 		<div class="row d-flex align-items-center">
 			<div class="col-md-6">
 				<div class="block">
 					<div class="form-group">
-						<input 
-						type="range" 
-						class="form-control-range vertical-slider"
-						step="0.1"
-						id="slider" 
-						orient="vertical"
-						>
+						<input
+							type="range"
+							class="form-control-range vertical-slider"
+							step="0.1"
+							id="slider"
+							orient="vertical"
+						/>
 					</div>
 
-					<button class="btn btn-primary" id="startStopButton">Start Recording</button>
-					
+					<button
+						class="btn btn-primary"
+						id="startStopButton"
+					>
+						Start Recording
+					</button>
+
 					<!-- Modal -->
-					<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+					<div
+						class="modal fade"
+						id="staticBackdrop"
+						data-bs-backdrop="static"
+						data-bs-keyboard="false"
+						tabindex="-1"
+						aria-labelledby="staticBackdropLabel"
+						aria-hidden="true"
+					>
 						<div class="modal-dialog">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h1 class="modal-title fs-5" id="staticBackdropLabel">Meditation Finished</h1>
-									<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									<h1
+										class="modal-title fs-5"
+										id="staticBackdropLabel"
+									>
+										Meditation Finished
+									</h1>
+									<button
+										type="button"
+										class="btn-close"
+										data-bs-dismiss="modal"
+										aria-label="Close"
+									></button>
 								</div>
 								<div class="modal-body">
 									<p class="fw-bold mt-2">Respiration Chart</p>
 									<div class="w-auto h-auto">
-										<canvas 
-										class="col-1"
-										id="plotting-modal"
+										<canvas
+											class="col-1"
+											id="plotting-modal"
 										></canvas>
 									</div>
-									<form id="csv-form" method="POST">
+									<form
+										id="csv-form"
+										method="POST"
+									>
 										{% csrf_token %}
-										<input 
-										type="text" 
-										id="csvInput"
-										name="csv_input"
-										style="display: none;"
-										>
-										<p class="fw-bold mt-2">Notes for this meditation (optional)</p>
-										<textarea class="form-control" id="noteInput" name="note_input" rows="3"></textarea>
+										<input
+											type="text"
+											id="csvInput"
+											name="csv_input"
+											style="display: none"
+										/>
+										<p class="fw-bold mt-2">
+											Notes for this meditation (optional)
+										</p>
+										<textarea
+											class="form-control"
+											id="noteInput"
+											name="note_input"
+											rows="3"
+										></textarea>
 									</form>
 								</div>
 								<div class="modal-footer">
-									<button 
-									class="btn btn-primary" 
-									id="saveButton"
-									form="csv-form"
-									type="submit" 
-									disabled="true"
-									>Save Recording</button>
-									<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Discard</button>
+									<button
+										class="btn btn-primary"
+										id="saveButton"
+										form="csv-form"
+										type="submit"
+										disabled="true"
+									>
+										Save Recording
+									</button>
+									<button
+										type="button"
+										class="btn btn-danger"
+										data-bs-dismiss="modal"
+									>
+										Discard
+									</button>
 								</div>
 							</div>
 						</div>
 					</div>
-					
+
 					{% if not user.is_authenticated %}
 					<p class="text-danger">Sign in to save recording</p>
 					{% else %}
 					<a
-					role="button"
-					href="{% url 'medass:inquiry' user.username %}"
-					class="btn btn-secondary"
-					>My Recordings</a>
-					{% endif %}
-					
-					{% comment %} <p id="stopwatch">Recording Time: <span id="stopwatchValue">0.00</span> seconds</p> {% endcomment %}
+						role="button"
+						href="{% url 'medass:inquiry' user.username %}"
+						class="btn btn-secondary"
+						>My Recordings</a
+					>
+					{% endif %} {% comment %}
+					<p id="stopwatch">
+						Recording Time: <span id="stopwatchValue">0.00</span> seconds
+					</p>
+					{% endcomment %}
 				</div>
 			</div>
-			<div class="col-md-6">
-				<div class="block" id="plotting">
-				</div>
+			<div
+				class="col-md-6"
+				id="plotting-box"
+			>
+				<div
+					class="block"
+					id="plotting"
+				></div>
 			</div>
 		</div>
 	</div>
 </main>
-{% endblock %}
-
+{% endblock %} 
 {% block scripts %}
-<script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+<script
+	src="https://cdn.plot.ly/plotly-2.27.0.min.js"
+	charset="utf-8"
+></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="/static/js/medass/medass-index.js"></script>
 {% endblock %}
