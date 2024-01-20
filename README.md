@@ -1,14 +1,8 @@
-# kaist-world
+#Your healing mentor
 
-kaist-world
-Developed and Maintained by `CHAEMIN LIM`
+Available on https://healingmentor.co.kr/home/
 
-## Introduction
-
-kaist-world is repository of killerwhalee's personal website.
-You can see website available on https://kaist-world.net/
-
-## Contact Us
+Developed and Maintained by `CHAEMIN LIM` and KAIST CCS shared lab
 
 If you have problem using my website or want to suggest great idea, feel free to contact us.
 
